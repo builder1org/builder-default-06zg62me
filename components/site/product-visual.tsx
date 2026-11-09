@@ -23,7 +23,7 @@ export function ProductVisual({
   return (
     <div
       className={cn(
-        "relative flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-primary/15 via-accent/40 to-muted",
+        "relative flex items-center justify-center overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-primary/25 via-card to-muted/80 ring-1 ring-white/5",
         sizeClass,
         className
       )}
