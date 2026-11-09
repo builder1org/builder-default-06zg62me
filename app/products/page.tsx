@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import { Breadcrumbs } from "@/components/site/breadcrumbs";
-import { CategoryFilter } from "@/components/site/category-filter";
+import { CategoryCircle } from "@/components/site/category-circle";
+import { PageShell } from "@/components/site/page-shell";
 import { ProductCard } from "@/components/site/product-card";
 import { categories, getCategoryBySlug, products } from "@/lib/data/catalog";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "محصولات",
@@ -25,39 +27,61 @@ export default async function ProductsPage({ searchParams }: PageProps) {
   const invalidCategory = categorySlug && !activeCategory;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
-      <Breadcrumbs
-        items={[
-          { label: "خانه", href: "/" },
-          { label: "محصولات" },
-        ]}
-      />
-      <h1 className="mt-4 text-3xl font-bold tracking-tight">همه محصولات</h1>
-      <p className="mt-2 text-muted-foreground">
+    <PageShell tight>
+      <h1 className="text-xl font-bold sm:text-2xl">همه محصولات</h1>
+      <p className="mt-1 text-sm text-muted-foreground">
         {activeCategory
-          ? `نمایش محصولات دسته «${activeCategory.name}»`
-          : "فیلتر بر اساس دسته یا باز کردن کارت هر محصول"}
+          ? `دسته «${activeCategory.name}»`
+          : "برای فیلتر، یکی از دایره‌ها را انتخاب کنید"}
       </p>
 
-      <div className="mt-6">
-        <CategoryFilter activeSlug={activeCategory?.slug} />
+      <div
+        className={cn(
+          "mt-5 flex gap-3 overflow-x-auto pb-1",
+          "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden",
+          "snap-x snap-mandatory"
+        )}
+      >
+        <Link
+          href="/products"
+          className={cn(
+            "flex w-[5.5rem] shrink-0 snap-start flex-col items-center gap-2",
+            !categorySlug && "opacity-100"
+          )}
+        >
+          <span
+            className={cn(
+              "flex size-[4.25rem] items-center justify-center rounded-full border-2 border-dashed text-xs font-bold",
+              !categorySlug ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground"
+            )}
+          >
+            همه
+          </span>
+          <span className="text-center text-[11px] font-semibold">همه</span>
+        </Link>
+        {categories.map((cat) => (
+          <CategoryCircle
+            key={cat.slug}
+            category={cat}
+            active={activeCategory?.slug === cat.slug}
+            size="sm"
+            className="snap-start"
+            linkMode="products-filter"
+          />
+        ))}
       </div>
 
       {invalidCategory ? (
-        <p className="mt-8 text-destructive">دسته انتخاب‌شده معتبر نیست.</p>
+        <p className="mt-8 text-sm text-destructive">دسته انتخاب‌شده معتبر نیست.</p>
       ) : filtered.length === 0 ? (
-        <p className="mt-8 text-muted-foreground">محصولی برای این فیلتر وجود ندارد.</p>
+        <p className="mt-8 text-sm text-muted-foreground">محصولی برای این فیلتر وجود ندارد.</p>
       ) : (
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((product) => (
             <ProductCard key={product.slug} product={product} />
           ))}
         </div>
       )}
-
-      <p className="sr-only">
-        {categories.length} دسته در سیستم نمونه تعریف شده است.
-      </p>
-    </main>
+    </PageShell>
   );
 }

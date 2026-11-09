@@ -6,60 +6,77 @@ import { categories } from "@/lib/data/catalog";
 import { cn } from "@/lib/utils";
 
 import { MobileNav } from "./mobile-nav";
+import { MobileSearchStrip } from "./mobile-search-strip";
 import { STORE_NAME } from "./store-brand";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:gap-8">
-        <MobileNav
-          trigger={
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/95 shadow-sm backdrop-blur-md">
+      <div className="mx-auto max-w-7xl px-3 py-2.5 sm:px-6 sm:py-3">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <MobileNav
+            trigger={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-10 shrink-0 md:hidden"
+                aria-label="منوی اصلی"
+              >
+                <Menu className="size-5" />
+              </Button>
+            }
+          />
+
+          <Link
+            href="/"
+            className="flex min-w-0 flex-1 items-center gap-2 font-bold tracking-tight text-foreground sm:flex-none"
+          >
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
+              <Zap className="size-4" aria-hidden />
+            </span>
+            <span className="truncate text-sm sm:text-base">{STORE_NAME}</span>
+          </Link>
+
+          <nav
+            className="hidden flex-1 items-center justify-center gap-0.5 lg:flex"
+            aria-label="دسته‌بندی‌ها"
+          >
+            {categories.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/categories/${cat.slug}`}
+                className={cn(
+                  "rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors",
+                  "hover:bg-accent hover:text-accent-foreground"
+                )}
+              >
+                {cat.name}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-1">
             <Button
-              variant="ghost"
-              size="icon"
-              className="shrink-0 lg:hidden"
-              aria-label="منوی اصلی"
+              variant="outline"
+              size="sm"
+              className="hidden rounded-full sm:inline-flex"
+              asChild
             >
-              <Menu className="size-5" />
+              <Link href="/products">همه محصولات</Link>
             </Button>
-          }
-        />
-
-        <Link
-          href="/"
-          className="flex min-w-0 items-center gap-2 font-bold tracking-tight text-foreground"
-        >
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Zap className="size-5" aria-hidden />
-          </span>
-          <span className="truncate text-base sm:text-lg">{STORE_NAME}</span>
-        </Link>
-
-        <nav
-          className="hidden flex-1 items-center justify-center gap-1 lg:flex"
-          aria-label="دسته‌بندی‌ها"
-        >
-          {categories.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/categories/${cat.slug}`}
-              className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors",
-                "hover:bg-accent hover:text-accent-foreground"
-              )}
+            <Button
+              variant="secondary"
+              size="icon"
+              className="size-10 rounded-full"
+              disabled
+              aria-label="سبد خرید (به‌زودی)"
             >
-              {cat.name}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="ms-auto flex items-center gap-2">
-          <Button variant="outline" size="sm" className="hidden sm:inline-flex" asChild>
-            <Link href="/products">همه محصولات</Link>
-          </Button>
-          <Button variant="secondary" size="icon" disabled aria-label="سبد خرید (به‌زودی)">
-            <ShoppingBag className="size-4" />
-          </Button>
+              <ShoppingBag className="size-4" />
+            </Button>
+          </div>
+        </div>
+        <div className="mt-2.5 md:hidden">
+          <MobileSearchStrip />
         </div>
       </div>
     </header>

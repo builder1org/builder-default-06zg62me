@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Vazirmatn } from "next/font/google";
 
+import { MobileTabBar } from "@/components/site/mobile-tab-bar";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { STORE_NAME, STORE_TAGLINE } from "@/components/site/store-brand";
@@ -21,6 +22,13 @@ export const metadata: Metadata = {
   description: STORE_TAGLINE,
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#1e3a8a",
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fa" dir="rtl" className={vazirmatn.variable}>
@@ -28,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteHeader />
         {children}
         <SiteFooter />
+        <MobileTabBar />
       </body>
     </html>
   );

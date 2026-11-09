@@ -6,7 +6,7 @@ import { STORE_NAME, STORE_TAGLINE } from "./store-brand";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-border bg-muted/40">
+    <footer className="mt-10 hidden border-t border-border bg-muted/40 sm:block md:mt-16">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-3">
         <div>
           <p className="text-lg font-bold">{STORE_NAME}</p>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
+import { CategoryCircleRail } from "@/components/site/category-circle-rail";
+import { PageShell } from "@/components/site/page-shell";
 import { ProductCard } from "@/components/site/product-card";
 import {
   categories,
@@ -33,36 +35,38 @@ export default async function CategoryPage({ params }: PageProps) {
   if (!category) notFound();
 
   const items = getProductsByCategory(slug);
-  const Icon = category.icon;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+    <PageShell tight>
       <Breadcrumbs
+        className="hidden sm:block"
         items={[
           { label: "خانه", href: "/" },
           { label: "دسته‌بندی‌ها", href: "/categories" },
           { label: category.name },
         ]}
       />
-      <div className="mt-4 flex flex-wrap items-center gap-4">
-        <span className="flex size-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
-          <Icon className="size-7" aria-hidden />
-        </span>
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">{category.name}</h1>
-          <p className="mt-1 text-muted-foreground">{category.description}</p>
-        </div>
-      </div>
+      <h1 className="mt-0 text-xl font-bold sm:mt-2 sm:text-2xl">{category.name}</h1>
+      <p className="mt-1 text-sm text-muted-foreground">{category.description}</p>
+
+      <CategoryCircleRail
+        className="mt-5 border-b border-border/60 pb-5"
+        categories={categories}
+        activeSlug={slug}
+        showAllHref={false}
+        layout="scroll"
+        circleSize="sm"
+      />
 
       {items.length === 0 ? (
-        <p className="mt-10 text-muted-foreground">هنوز محصولی در این دسته ثبت نشده است.</p>
+        <p className="mt-8 text-sm text-muted-foreground">هنوز محصولی در این دسته ثبت نشده است.</p>
       ) : (
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
           {items.map((product) => (
             <ProductCard key={product.slug} product={product} />
           ))}
         </div>
       )}
-    </main>
+    </PageShell>
   );
 }

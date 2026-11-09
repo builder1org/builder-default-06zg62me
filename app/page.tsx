@@ -1,13 +1,16 @@
 import { CategoryStrip } from "@/components/sections/category-strip";
 import { FeaturedProducts } from "@/components/sections/featured-products";
 import { HomeHero } from "@/components/sections/home-hero";
+import { PageShell } from "@/components/site/page-shell";
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
-      <HomeHero />
+    <PageShell tight>
       <CategoryStrip />
+      <div className="mt-6">
+        <HomeHero />
+      </div>
       <FeaturedProducts />
-    </main>
+    </PageShell>
   );
 }
