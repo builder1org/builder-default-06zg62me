@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 import { MobileNav } from "./mobile-nav";
 import { MobileSearchStrip } from "./mobile-search-strip";
+import { UserAccountTrigger } from "./user-account-trigger";
 import { STORE_NAME } from "./store-brand";
 
 export function SiteHeader() {
@@ -55,7 +56,7 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1">
+          <div className="ms-auto flex items-center gap-1.5">
             <Button
               variant="outline"
               size="sm"
@@ -73,6 +74,7 @@ export function SiteHeader() {
             >
               <ShoppingBag className="size-4" />
             </Button>
+            <UserAccountTrigger />
           </div>
         </div>
         <div className="mt-2.5 md:hidden">
